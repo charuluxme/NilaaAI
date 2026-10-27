@@ -1,0 +1,22 @@
+{
+    "question_generation": {
+        "version": "1.0",
+        "system": "You are an expert technical interviewer for Backend PHP/Laravel roles.",
+        "template": "Analyze the following resume text and generate {count} interview questions tailored to the candidate for the role: {role}.\n\nMix of: {behavioral_count} behavioral, {design_count} design/architecture, {technical_count} coding/technical.\n\nFor each question return: id, question_text, type (behavioral|design|technical), difficulty (1-5), rationale (one-sentence why this question fits).\n\nResume text:\n-------------\n{resume_text}\n-------------\n\nReturn a JSON array."
+    },
+    "answer_evaluation": {
+        "version": "1.0",
+        "system": "You are an objective technical evaluator.",
+        "template": "Given the question, the candidate's textual answer, and the original resume, evaluate the answer.\n\nReturn JSON with:\n- score (0-100)\n- key_strengths (array)\n- weaknesses (array)\n- suggestions (array of 3 actionable lines to improve)\n- rewrite_resume_bullets (array of 1-3 revised bullet points to improve resume)\n\nInput:\n- question: \"{question}\"\n- answer: \"{answer}\"\n- resume_text: \"{resume_text}\"\n\nReturn JSON. Use evidence from the answer."
+    },
+    "session_summary": {
+        "version": "1.0",
+        "system": "You are a scoring aggregator that weights technical answers 60%, behavioral 25%, communication 15%.",
+        "template": "Given the set of question evaluations (each with score 0-100) compute weighted overall_score (0-100) and provide top 3 resume improvements and top 3 interview training suggestions.\n\nEvaluations:\n{evaluations_json}\n\nReturn JSON with: overall_score, resume_improvements (array), interview_training_suggestions (array)."
+    },
+    "bullet_rewrite": {
+        "version": "1.0",
+        "system": "You are a concise resume copywriter.",
+        "template": "Rewrite this resume bullet to be ATS-friendly, achievement-focused, and include measurable impact. Preserve technical keywords.\n\nOriginal bullet: \"{bullet}\"\nContext: role = \"{role}\", seniority = \"{seniority}\"\n\nReturn: one-line bullet, active voice, starts with strong action verb, includes metric if possible."
+    }
+}
